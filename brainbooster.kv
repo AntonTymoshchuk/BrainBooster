@@ -1,0 +1,38 @@
+<BrainBoosterLayout>:
+    orientation: 'vertical'
+    GridLayout:
+        cols: 2
+        TextInput:
+            id: number_1_size_input
+            hint_text: 'N-цифровое число 1'
+            font_size: '18sp'
+            multiline: False
+        TextInput:
+            id: number_2_size_input
+            hint_text: 'N-цифровое число 2'
+            font_size: '18sp'
+            multiline: False
+    Button:
+        text: 'Начать тренировку'
+        font_size: '18sp'
+        on_press: root.start_training()
+    GridLayout:
+        cols: 2
+        TextInput:
+            id: result_input
+            size_hint: (0.8, 1)
+            disabled: True
+            font_size: '18sp'
+            multiline: False
+            on_text_validate: root.submit_answer()
+        Button:
+            id: submit_answer_button
+            text: 'Ответить'
+            size_hint: (0.2, 1)
+            font_size: '18sp'
+            on_press: root.submit_answer()
+            disabled: True
+    Label:
+        id: info_label
+        font_size: '18sp'
+        color: [0, 0, 0, 1]

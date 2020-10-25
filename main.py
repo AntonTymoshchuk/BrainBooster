@@ -14,7 +14,8 @@ class BrainBoosterLayout(BoxLayout):
         BoxLayout.__init__(self, **kwargs)
         self.max_1st_number_size = 0
         self.max_2nd_number_size = 0
-        self.actions = ['плюс', 'минус', 'умножить на', 'разделить на']
+        self.actions = ['плюс', 'минус', 'умножить на', 'разделить на',
+                        'умножить на', 'разделить на']
         self.max_number_1 = 0
         self.max_number_2 = 0
         self.current_result = 0
@@ -66,7 +67,7 @@ class ExpressionGenerator(Thread):
                                  self.brain_booster_layout.max_number_1 - 1)
         number2 = random.randint(self.brain_booster_layout.max_number_2 / 10,
                                  self.brain_booster_layout.max_number_2 - 1)
-        action = self.brain_booster_layout.actions[random.randint(0, 3)]
+        action = self.brain_booster_layout.actions[random.randint(0, 5)]
         if action == 'плюс':
             self.brain_booster_layout.current_result = number1 + number2
         elif action == 'минус':

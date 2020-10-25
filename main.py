@@ -75,7 +75,7 @@ class ExpressionGenerator(Thread):
         elif action == 'умножить на':
             self.brain_booster_layout.current_result = number1 * number2
         elif action == 'разделить на':
-            self.brain_booster_layout.current_result = round(number1 / number2, 2)
+            self.brain_booster_layout.current_result = round(number1 / number2, 3)
         expression = '{0} {1} {2}'.format(number1, action, number2)
         tts = gTTS(expression, lang='ru')
         tts.save('{0}.mp3'.format(expression))

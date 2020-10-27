@@ -38,19 +38,17 @@ class BrainBoosterLayout(BoxLayout):
             self.max_number_2 *= 10
             iteration += 1
         ExpressionGenerator(self).start()
-        self.start_time = datetime.now()
 
     def submit_answer(self):
         self.end_time = datetime.now()
         time = self.end_time - self.start_time
         user_result = float(self.ids.result_input.text)
         if user_result == self.current_result:
-            self.ids.info_label.text = 'Правильно. Потрачено {0} секунд'.format(time.seconds)
+            self.ids.info_label.text = 'Правильно. Потрачено {0} секунд.'.format(time.seconds)
         else:
-            self.ids.info_label.text = 'Неправильно. Потрачено {0} секунд'.format(time.seconds)
+            self.ids.info_label.text = 'Неправильно. Потрачено {0} секунд.'.format(time.seconds)
         self.ids.result_input.text = ''
         ExpressionGenerator(self).start()
-        self.start_time = datetime.now()
 
 
 class ExpressionGenerator(Thread):
@@ -81,6 +79,7 @@ class ExpressionGenerator(Thread):
         tts.save('{0}.mp3'.format(expression))
         playsound('{0}.mp3'.format(expression))
         os.remove('{0}.mp3'.format(expression))
+        self.brain_booster_layout.start_time = datetime.now()
 
 
 class BrainBoosterApp(App):

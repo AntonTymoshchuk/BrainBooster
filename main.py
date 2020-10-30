@@ -85,6 +85,10 @@ class ExpressionGenerator(Thread):
                 tts = gTTS(expression, lang='ru')
                 tts.save('{0}.mp3'.format(expression))
             except ValueError:
+                try:
+                    os.remove('{0}.mp3'.format(expression))
+                except OSError:
+                    pass
                 continue
             playsound('{0}.mp3'.format(expression))
             os.remove('{0}.mp3'.format(expression))

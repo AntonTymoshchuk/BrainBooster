@@ -44,9 +44,11 @@ class BrainBoosterLayout(BoxLayout):
         time = self.end_time - self.start_time
         user_result = float(self.ids.result_input.text)
         if user_result == self.current_result:
-            self.ids.info_label.text = 'Правильно. Потрачено {0} секунд.'.format(time.seconds)
+            self.ids.info_label.text = 'Правильно. Потрачено {0} секунд.'.format(
+                time.seconds)
         else:
-            self.ids.info_label.text = 'Неправильно. Потрачено {0} секунд.'.format(time.seconds)
+            self.ids.info_label.text = 'Неправильно. Потрачено {0} секунд.'.format(
+                time.seconds)
         self.ids.result_input.text = ''
         ExpressionGenerator(self).start()
 
@@ -60,26 +62,34 @@ class ExpressionGenerator(Thread):
         self.generate_expression()
 
     def generate_expression(self):
-        random = Random()
-        number1 = random.randint(self.brain_booster_layout.max_number_1 / 10,
-                                 self.brain_booster_layout.max_number_1 - 1)
-        number2 = random.randint(self.brain_booster_layout.max_number_2 / 10,
-                                 self.brain_booster_layout.max_number_2 - 1)
-        action = self.brain_booster_layout.actions[random.randint(0, 5)]
-        if action == 'плюс':
-            self.brain_booster_layout.current_result = number1 + number2
-        elif action == 'минус':
-            self.brain_booster_layout.current_result = number1 - number2
-        elif action == 'умножить на':
-            self.brain_booster_layout.current_result = number1 * number2
-        elif action == 'разделить на':
-            self.brain_booster_layout.current_result = round(number1 / number2, 3)
-        expression = '{0} {1} {2}'.format(number1, action, number2)
-        tts = gTTS(expression, lang='ru')
-        tts.save('{0}.mp3'.format(expression))
-        playsound('{0}.mp3'.format(expression))
-        os.remove('{0}.mp3'.format(expression))
-        self.brain_booster_layout.start_time = datetime.now()
+        while True:
+            random = Random()
+            number1 = random.randint(
+                self.brain_booster_layout.max_number_1 / 10,
+                self.brain_booster_layout.max_number_1 - 1)
+            number2 = random.randint(
+                self.brain_booster_layout.max_number_2 / 10,
+                self.brain_booster_layout.max_number_2 - 1)
+            action = self.brain_booster_layout.actions[random.randint(0, 5)]
+            if action == 'плюс':
+                self.brain_booster_layout.current_result = number1 + number2
+            elif action == 'минус':
+                self.brain_booster_layout.current_result = number1 - number2
+            elif action == 'умножить на':
+                self.brain_booster_layout.current_result = number1 * number2
+            elif action == 'разделить на':
+                self.brain_booster_layout.current_result = round(
+                    number1 / number2, 3)
+            expression = '{0} {1} {2}'.format(number1, action, number2)
+            try:
+                tts = gTTS(expression, lang='ru')
+                tts.save('{0}.mp3'.format(expression))
+            except ValueError:
+                continue
+            playsound('{0}.mp3'.format(expression))
+            os.remove('{0}.mp3'.format(expression))
+            self.brain_booster_layout.start_time = datetime.now()
+            break
 
 
 class BrainBoosterApp(App):

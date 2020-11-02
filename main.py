@@ -64,12 +64,17 @@ class ExpressionGenerator(Thread):
     def generate_expression(self):
         while True:
             random = Random()
+            swap_numbers = bool(random.randint(0, 1))
             number1 = random.randint(
                 self.brain_booster_layout.max_number_1 / 10,
                 self.brain_booster_layout.max_number_1 - 1)
             number2 = random.randint(
                 self.brain_booster_layout.max_number_2 / 10,
                 self.brain_booster_layout.max_number_2 - 1)
+            if swap_numbers:
+                temp = number2
+                number2 = number1
+                number1 = temp
             action = self.brain_booster_layout.actions[random.randint(0, 5)]
             if action == 'плюс':
                 self.brain_booster_layout.current_result = number1 + number2

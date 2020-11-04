@@ -21,6 +21,8 @@ class BrainBoosterLayout(BoxLayout):
         self.current_result = 0
         self.start_time = None
         self.end_time = None
+        self.home = os.path.expanduser('~')
+        self.path = os.path.join(self.home, 'temp')
 
     def start_training(self):
         self.ids.submit_answer_button.disabled = False
@@ -88,15 +90,20 @@ class ExpressionGenerator(Thread):
             expression = '{0} {1} {2}'.format(number1, action, number2)
             try:
                 tts = gTTS(expression, lang='ru')
-                tts.save('{0}.mp3'.format(expression))
+                file = os.path.join(self.brain_booster_layout.path,
+                                    '{0}.mp3'.format(expression))
+                tts.save(file)
             except ValueError:
                 try:
-                    os.remove('{0}.mp3'.format(expression))
+                    os.remove(os.path.join(self.brain_booster_layout.path,
+                                           '{0}.mp3'.format(expression)))
                 except OSError:
                     pass
                 continue
-            playsound('{0}.mp3'.format(expression))
-            os.remove('{0}.mp3'.format(expression))
+            playsound(os.path.join(self.brain_booster_layout.path,
+                                   '{0}.mp3'.format(expression)))
+            os.remove(os.path.join(self.brain_booster_layout.path,
+                                   '{0}.mp3'.format(expression)))
             self.brain_booster_layout.start_time = datetime.now()
             break
 

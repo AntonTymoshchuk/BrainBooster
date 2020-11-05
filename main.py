@@ -88,22 +88,19 @@ class ExpressionGenerator(Thread):
                 self.brain_booster_layout.current_result = round(
                     number1 / number2, 3)
             expression = '{0} {1} {2}'.format(number1, action, number2)
+            file = os.path.join(self.brain_booster_layout.path,
+                                '{0}.mp3'.format(expression))
             try:
                 tts = gTTS(expression, lang='ru')
-                file = os.path.join(self.brain_booster_layout.path,
-                                    '{0}.mp3'.format(expression))
                 tts.save(file)
             except ValueError:
                 try:
-                    os.remove(os.path.join(self.brain_booster_layout.path,
-                                           '{0}.mp3'.format(expression)))
+                    os.remove(file)
                 except OSError:
                     pass
                 continue
-            playsound(os.path.join(self.brain_booster_layout.path,
-                                   '{0}.mp3'.format(expression)))
-            os.remove(os.path.join(self.brain_booster_layout.path,
-                                   '{0}.mp3'.format(expression)))
+            playsound(file)
+            os.remove(file)
             self.brain_booster_layout.start_time = datetime.now()
             break
 
